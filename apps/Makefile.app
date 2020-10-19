@@ -51,7 +51,7 @@ $(APP_SERVICE_NAME)-save-image:
 	for service in $(APP_BUILD_IMAGES) ; do \
 	image_name=$$(cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_BUILD) config | \
 	python -c 'import sys, yaml, json; cfg = json.loads(json.dumps(yaml.load(sys.stdin), sys.stdout, indent=4)); print cfg["services"]["'$$service'"]["image"]') ; \
-	  docker image save $$image_name | gzip -9c > $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz ; \
+	  docker save $$image_name | gzip -9c > $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz ; \
 	  cp $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
 	done
 
