@@ -7,7 +7,8 @@ if ! git describe --tags 2>&- ; then
     buildno="0.1.0-alpha.$(date +%Y%m%d).$count.$commit"
     echo "$buildno"
   else
-    echo "ERROR $(basename $0)" >&2
-    exit $ret
+    #echo "ERROR $(basename $0)" >&2
+    #exit $ret
+    echo ./VERSION
   fi
 fi
