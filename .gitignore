@@ -1,4 +1,5 @@
 *-build
+.project
 artifacts
 VERSION
 apps/tests/config.tar.gz
