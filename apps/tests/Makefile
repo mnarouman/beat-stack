@@ -65,7 +65,7 @@ ${APP_TEST_RUNNER_SERVICE_NAME}-check-config-image:
 
 ${APP_TEST_RUNNER_SERVICE_NAME}-clean-image:
 	@(cd ${TEST_APP_PATH} && ${DC} -f ${APP_TEST_RUNNER_DOCKER_COMPOSE_BUILD} config | \
-           python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | \
+           python2.7 -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | \
            jq -r '.services[] | . as $(dollar)a | select($(dollar)a.build) | .image' ) | while read image_name ; do \
            docker rmi $$image_name || true ; \
         done

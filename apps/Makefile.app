@@ -50,14 +50,14 @@ $(APP_SERVICE_NAME)-pull-image:
 $(APP_SERVICE_NAME)-save-image:
 	for service in $(APP_BUILD_IMAGES) ; do \
 	image_name=$$(cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_BUILD) config | \
-	python -c 'import sys, yaml, json; cfg = json.loads(json.dumps(yaml.load(sys.stdin), sys.stdout, indent=4)); print cfg["services"]["'$$service'"]["image"]') ; \
+	python2.7 -c 'import sys, yaml, json; cfg = json.loads(json.dumps(yaml.load(sys.stdin), sys.stdout, indent=4)); print cfg["services"]["'$$service'"]["image"]') ; \
 	  docker save $$image_name | gzip -9c > $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz ; \
 	  cp $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
 	done
 
 $(APP_SERVICE_NAME)-clean-image:
 	@(cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_BUILD) config | \
-           python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | \
+           python2.7 -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | \
            jq -r '.services[] | . as $(dollar)a | select($(dollar)a.build) | .image' ) | while read image_name ; do \
            docker rmi $$image_name || true ; \
         done
